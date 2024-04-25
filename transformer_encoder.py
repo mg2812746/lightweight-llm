@@ -11,22 +11,21 @@
 '''
 
 import tensorflow as tf
-from tensorflow import MultiHeadAttention, LayerNormalization, Dense 
 
 # scribes, absorbes information
 class TransformerEncoderLayer(tf.keras.layers.Layer):
     def __init__(self, d_model, num_heads, dff, rate=0.1):
         super(TransformerEncoderLayer, self).__init__()
-        self.mha = MultiHeadAttention(num_heads, d_model)
+        self.mha = tf.MultiHeadAttention(num_heads, d_model)
         self.ffn = tf.keras.Sequential([
-            Dense(dff, activation='relu'),
-            Dense(d_model)
+            tf.Dense(dff, activation='relu'),
+            tf.Dense(d_model)
         ])
         # Layer Normalization and Dropout
         # Helps in stablizing the output of each layer
         # Helps prevent overfitting
-        self.layernorm1 = LayerNormalization(epsilon=1e-6)
-        self.layernorm2 = LayerNormalization(epsilon=1e-6)
+        self.layernorm1 = tf.LayerNormalization(epsilon=1e-6)
+        self.layernorm2 = tf.LayerNormalization(epsilon=1e-6)
         self.dropout1 = tf.keras.layers.Dropout(rate)
         self.dropout2 = tf.keras.layers.Dropout(rate)
 

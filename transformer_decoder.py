@@ -9,22 +9,21 @@
     
 '''
 import tensorflow as tf
-from tensorflow import MultiHeadAttention, LayerNormalization, Dense 
 
 class TransformerDecoderLayer(tf.keras.layers.Layer):
     def __init__(self, d_model, num_heads, dff, rate=0.1):
         super(TransformerDecoderLayer, self).__init__()
-        self.mha1 = MultiHeadAttention(num_heads, d_model)
-        self.mha2 = MultiHeadAttention(num_heads, d_model)
+        self.mha1 = tf.MultiHeadAttention(num_heads, d_model)
+        self.mha2 = tf.MultiHeadAttention(num_heads, d_model)
 
         self.ffn = tf.keras.Sequential([
-            Dense(dff, activation='relu'), 
-            Dense(d_model)
+            tf.Dense(dff, activation='relu'), 
+            tf.Dense(d_model)
         ])
 
-        self.layernorm1 = LayerNormalization(epsilon=1e-6)
-        self.layernorm2 = LayerNormalization(epsilon=1e-6)
-        self.layernorm3 = LayerNormalization(epsilon=1e-6)
+        self.layernorm1 = tf.LayerNormalization(epsilon=1e-6)
+        self.layernorm2 = tf.LayerNormalization(epsilon=1e-6)
+        self.layernorm3 = tf.LayerNormalization(epsilon=1e-6)
         
         self.dropout1 = tf.keras.layers.Dropout(rate)
         self.dropout2 = tf.keras.layers.Dropout(rate)
